@@ -1,0 +1,50 @@
+﻿@model ForeverFrameChat.Models.RegisterModel
+
+
+
+<h2>Реєстрація</h2>
+
+
+<form method="post" action="/Account/Register">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <h4>Реєстрація користувача</h4>
+        <hr />
+        @Html.ValidationSummary(false)
+
+        <div>
+            Електронний адрес
+            <div>
+                @Html.EditorFor(model => model.Email)
+            </div>
+        </div>
+
+        <div>
+            Логін
+            <div>
+                @Html.EditorFor(model => model.Login)
+            </div>
+        </div>
+
+        <div>
+            Пароль
+            <div>
+                @Html.EditorFor(model => model.Password)
+            </div>
+        </div>
+
+        <div>
+            Підтвердіть пароль
+            <div>
+                @Html.EditorFor(model => model.PasswordConfirm)
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <input type="submit" value="Зареєструватись" />
+            </div>
+        </div>
+    </div>
+</form>}
