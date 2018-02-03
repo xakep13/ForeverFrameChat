@@ -10,34 +10,22 @@ namespace ForeverFrameChat.Handlers
 {
     public class MyAsyncHandler : IHttpAsyncHandler, System.Web.SessionState.IReadOnlySessionState
     {
-        #region IHttpAsyncHandler Members
-
         public IAsyncResult BeginProcessRequest(HttpContext ctx, AsyncCallback cb, Object obj)
         {
             ctx.ThreadAbortOnTimeout = false;
 
             MyAsyncState currentAsyncState = new MyAsyncState(ctx, cb, obj);
 
-            ThreadPool.QueueUserWorkItem(new WaitCallback(
-            RequestWorker), currentAsyncState);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(RequestWorker), currentAsyncState);
 
             return currentAsyncState;
         }
 
         public void EndProcessRequest(IAsyncResult ar) { }
-        #endregion
-        #region IHttpHandler Members
 
-        public bool IsReusable
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool IsReusable => false;
 
         public void ProcessRequest(HttpContext context) { }
-        #endregion
 
         private void RequestWorker(Object obj)
         {
@@ -87,6 +75,7 @@ namespace ForeverFrameChat.Handlers
                 }
             }
         }
+
         public static string FirstText()
         {
             string s = "";

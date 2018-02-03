@@ -2,7 +2,7 @@
     var self = this;
     var connectTries = 0,
         reconnectTimer;
-    var htmlfile; // for ie only
+    var htmlfile; 
     var iframe;
 
     this.onConnected = function () {
@@ -39,8 +39,7 @@
                     SayWhoIsTyping(data.UserName);
                 break;
             case 6:
-                
-                    SendPrivateMessage(data.Id, data.UserName, data.Value, true);
+                SendPrivateMessage(data.Id, data.UserName, data.Value, true);
                 break;
             case 7:
                 SendGroupMessage(data.Id, data.UserName, data.Value, false);
@@ -80,13 +79,13 @@
     };
 
     this.isConnected = function () {
-        return connectTries == 0; // onConnect обнуляет connectTries
+        return connectTries == 0;
     };
 
     function cleanIframe() {
         if (iframe) {
             iframe.src = "javascript:false";
-            iframe.parentNode.removeChild(iframe); // очистка
+            iframe.parentNode.removeChild(iframe); 
         }
     }
 
@@ -111,9 +110,9 @@
             htmlfile.parentWindow.IframeComet = self;
         }
 
-        src = src || 'javascript:false'; // clear src
+        src = src || 'javascript:false'; 
         htmlfile.body.insertAdjacentHTML('beforeEnd', "<iframe src='" + src + "'></iframe>");
-        iframe = htmlfile.body.lastChild; // window in .document.parentWindow
+        iframe = htmlfile.body.lastChild;
     }
 
     function JoinUser(allUsers) {

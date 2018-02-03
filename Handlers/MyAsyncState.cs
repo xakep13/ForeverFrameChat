@@ -11,27 +11,18 @@ namespace ForeverFrameChat.Handlers
         public HttpContext CurrentContext;
         public AsyncCallback AsyncCallback;
         public object ExtraData;
+
         public string ClientGuid;
         public string ClientName;
-        private Boolean _isCompleted;
 
         public MyAsyncState(HttpContext context, AsyncCallback callback, object data)
         {
             CurrentContext = context;
             AsyncCallback = callback;
             ExtraData = data;
-            _isCompleted = false;
         }
 
-        public void CompleteRequest()
-        {
-            _isCompleted = true;
-            AsyncCallback?.Invoke(this);
-        }
-
-        #region IAsyncResult Members
-
-        public Boolean CompletedSynchronously
+        public bool CompletedSynchronously
         {
             get
             {
@@ -43,7 +34,7 @@ namespace ForeverFrameChat.Handlers
         {
             get
             {
-                return _isCompleted;
+                return IsCompleted;
             }
         }
 
@@ -62,9 +53,5 @@ namespace ForeverFrameChat.Handlers
                 return new ManualResetEvent(false);
             }
         }
-
-        WaitHandle IAsyncResult.AsyncWaitHandle => throw new NotImplementedException();
-  
-        #endregion
     }
 }

@@ -28,14 +28,8 @@ namespace ForeverFrameChat.Handlers
                 }
                 catch
                 {
-                    try
-                    {
-                        Reconect(state);
-                    }
-                    catch
-                    {
-                        OnClose(state);
-                    }
+                    try { Reconect(state); }
+                    catch { OnClose(state); }
                 }
             }
         }
@@ -48,22 +42,12 @@ namespace ForeverFrameChat.Handlers
 
         public static void Broadcast(string message)
         {
-            lock (_lock)
-            {
-                foreach (MyAsyncState state in _clientStateList.ToList())
-                {
-                    Send(message, state);
-                }
-            }
+            foreach (MyAsyncState state in _clientStateList.ToList()) Send(message, state);
         }
 
         public static void Broadcast(string message, MyAsyncState state1)
         {
-            foreach (MyAsyncState state in _clientStateList.ToList())
-            {
-                if (state != state1)
-                    Send(message, state);
-            }
+            foreach (MyAsyncState state in _clientStateList.ToList()) if (state != state1) Send(message, state);
         }
 
         public static void UpdateClient(MyAsyncState state, string id)
@@ -136,6 +120,7 @@ namespace ForeverFrameChat.Handlers
         public static void SayWhoIsTypingPrivate(MessageModel msg, MyAsyncState state)
         {
             MyAsyncState channel = _clientStateList.Find(n => n.ClientGuid == msg.Id);
+
             Send(ser.Serialize(new
             {
                 Type = MessageType.IsTypingPrivate,
@@ -152,8 +137,8 @@ namespace ForeverFrameChat.Handlers
             foreach (string user in users)
             {
                 var chanel = _clientStateList.Find(n => n.ClientGuid == user);
+
                 if (chanel != null)
-                {
                     Send(ser.Serialize(new
                     {
                         Type = MessageType.GroopChat,
@@ -161,7 +146,6 @@ namespace ForeverFrameChat.Handlers
                         Value = msg.Value,
                         Id = msg.Id
                     }), chanel);
-                }
             }
         }
 
@@ -172,8 +156,8 @@ namespace ForeverFrameChat.Handlers
             foreach (string user in users)
             {
                 var channel = _clientStateList.Find(n => n.ClientGuid == user);
+
                 if (channel != null)
-                {
                     Send(ser.Serialize(new
                     {
                         Type = MessageType.IsTypingGroup,
@@ -181,9 +165,7 @@ namespace ForeverFrameChat.Handlers
                         Value = msg.UserName + " is typing...",
                         Id = msg.Id
                     }), channel);
-                }
             }
-
         }
 
         public static void SendPrivateMessage(MessageModel msg, MyAsyncState state)
@@ -252,7 +234,6 @@ namespace ForeverFrameChat.Handlers
                 _clientStateList.Remove(state);
                 UserModel user = ConnectedUsers.Find(x => x.ConnectionId == state.ClientGuid);
                 ConnectedUsers.Remove(user);
-
             }
         }
     }
