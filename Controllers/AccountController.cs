@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
+using System.Web;
 
 namespace ForeverFrameChat.Controllers
 {
@@ -67,29 +67,30 @@ namespace ForeverFrameChat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid)
-            {
-                ApplicationUser user = await UserManager.FindAsync(model.Login, model.Password);
-                if (user == null)
-                {
-                    ModelState.AddModelError("", "Невірний логін або пароль.");
-                }
-                else
-                {
-                    ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
-                                            DefaultAuthenticationTypes.ApplicationCookie);
-                    AuthenticationManager.SignOut();
-                    AuthenticationManager.SignIn(new AuthenticationProperties
-                    {
-                        IsPersistent = true
-                    }, claim);
-                    if (String.IsNullOrEmpty(returnUrl))
-                        return Redirect("/Home/Index");
-                    return Redirect(returnUrl);
-                }
-            }
-            ViewBag.returnUrl = returnUrl;
-            return View(model);
+            return Redirect(returnUrl);
+            //if (ModelState.IsValid)
+            //{
+            //    ApplicationUser user = await UserManager.FindAsync(model.Login, model.Password);
+            //    if (user == null)
+            //    {
+            //        ModelState.AddModelError("", "Невірний логін або пароль.");
+            //    }
+            //    else
+            //    {
+            //        ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
+            //                                DefaultAuthenticationTypes.ApplicationCookie);
+            //        AuthenticationManager.SignOut();
+            //        AuthenticationManager.SignIn(new AuthenticationProperties
+            //        {
+            //            IsPersistent = true
+            //        }, claim);
+            //        if (String.IsNullOrEmpty(returnUrl))
+            //            return Redirect("/Home/Index");
+            //        return Redirect(returnUrl);
+            //    }
+            //}
+            //ViewBag.returnUrl = returnUrl;
+            //return View(model);
         }
         public ActionResult Logout()
         {

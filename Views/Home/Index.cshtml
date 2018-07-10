@@ -55,9 +55,10 @@
         </div>
     </div>
     <script type="text/javascript">
-        $('#hdId').val("@User.Identity.GetUserId()");
-        $('#hdUserName').val("@User.Identity.Name.ToString()");
-        $('#spanUser').html("@User.Identity.Name.ToString()");
+        var a = Math.random() + ''
+        $('#hdId').val(a);
+        $('#hdUserName').val(a);
+        $('#spanUser').html(a);
     </script>
 </body>
 </html>
